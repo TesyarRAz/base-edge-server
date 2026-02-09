@@ -18,3 +18,14 @@ serve-node:
 
 down-node:
 	docker compose -f node/docker-compose.yaml --env-file node/.env --project-directory . down
+
+allow-domain-cert:
+	sudo setfacl -m u:472:rx /etc/letsencrypt/live
+	sudo setfacl -m u:472:rx /etc/letsencrypt/archive
+
+	@read -p "Enter domain: " domain; \
+	sudo setfacl -m u:472:r /etc/letsencrypt/live/$$domain/*; \
+	sudo setfacl -m u:472:r /etc/letsencrypt/archive/$$domain/*
+
+
+	
