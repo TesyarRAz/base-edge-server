@@ -14,10 +14,12 @@ services:
     container_name: monitoring-cadvisor
     image: gcr.io/cadvisor/cadvisor:latest
     volumes: 
+      - /:/rootfs:ro
       - /var/run/docker.sock:/var/run/docker.sock
       - /var/lib/docker/:/var/lib/docker:ro
       - /sys:/sys:ro
-      - /var/run:/var/run
+      - /var/run:/var/run:ro
+    privileged: true
     restart: unless-stopped
     cpus: 0.1
     mem_limit: 256M
