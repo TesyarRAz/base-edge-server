@@ -1,7 +1,7 @@
 services:
     node-exporter:
       image: quay.io/prometheus/node-exporter:latest
-      container_name: node-exporter
+      container_name: monitoring-node-exporter
       restart: unless-stopped
       cpus: 0.1
       mem_limit: 256M
@@ -9,7 +9,7 @@ services:
         - "${FORWARD_NODE_EXPORTER_PORT}:9100"
     
     cadvisor:
-      container_name: cadvisor
+      container_name: monitoring-cadvisor
       image: gcr.io/cadvisor/cadvisor:latest
       volumes: 
         - /var/run/docker.sock:/var/run/docker.sock
