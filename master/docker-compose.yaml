@@ -14,6 +14,8 @@ services:
       - ./data/grafana-data:/var/lib/grafana
     networks:
       - monitoring
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
   
   loki:
     image: grafana/loki:2.9.0
@@ -39,6 +41,8 @@ services:
       - "${FORWARD_PROMETHEUS_PORT}:9090"
     networks:
       - monitoring
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
       - '--storage.tsdb.path=/prometheus'
