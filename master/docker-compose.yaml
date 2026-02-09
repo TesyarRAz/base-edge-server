@@ -54,3 +54,4 @@ services:
 networks:
   monitoring:
     name: monitoring
+    external: true
