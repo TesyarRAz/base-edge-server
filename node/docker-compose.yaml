@@ -21,3 +21,8 @@ services:
       mem_limit: 256M
       ports:
         - "${FORWARD_CADVISOR_PORT}:8080"
+
+networks:
+  monitoring:
+    name: monitoring
+    external: true
