@@ -1,0 +1,52 @@
+services:
+  grafana:
+    image: grafana/grafana:latest
+    container_name: monitoring-grafana
+    ports:
+      - "${FORWARD_GRAFANA_PORT}:3000"
+    environment:
+      - GF_PATHS_PROVISIONING=/etc/grafana/provisioning
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    restart: unless-stopped
+    volumes:
+      - ./master/grafana/datasources:/etc/grafana/provisioning/datasources
+      - ./data/grafana-data:/var/lib/grafana
+    networks:
+      - monitoring
+  
+  loki:
+    image: grafana/loki:2.9.0
+    container_name: monitoring-loki
+    ports:
+      - "${FORWARD_LOKI_PORT}:3100"
+    restart: unless-stopped
+    volumes:
+      - ./data/loki-data:/loki
+      - ./master/loki/loki-config.yaml:/etc/loki/loki-config.yaml
+    command: -config.file=/etc/loki/loki-config.yaml -config.expand-env=true
+    networks:
+      - monitoring
+  
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: monitoring-prometheus
+    restart: unless-stopped
+    volumes:
+      - ./master/prometheus/prometheus.yaml:/etc/prometheus/prometheus.yml
+      - ./data/prometheus-data:/prometheus
+    ports:
+      - "${FORWARD_PROMETHEUS_PORT}:9090"
+    networks:
+      - monitoring
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--storage.tsdb.retention.time=30d'
+      - '--web.enable-lifecycle'
+    cpus: 0.2
+    mem_limit: 512M
+
+networks:
+  monitoring:
+    name: monitoring
