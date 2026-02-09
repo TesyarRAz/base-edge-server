@@ -2,16 +2,14 @@ services:
   grafana:
     image: grafana/grafana:latest
     container_name: monitoring-grafana
+    env_file: ./master/grafana/.env
     ports:
       - "${FORWARD_GRAFANA_PORT}:3000"
-    environment:
-      - GF_PATHS_PROVISIONING=/etc/grafana/provisioning
-      - GF_SECURITY_ADMIN_USER=admin
-      - GF_SECURITY_ADMIN_PASSWORD=admin
     restart: unless-stopped
     volumes:
       - ./master/grafana/datasources:/etc/grafana/provisioning/datasources
       - ./data/grafana-data:/var/lib/grafana
+      - /etc/letsencrypt:/etc/letsencrypt:ro
     networks:
       - monitoring
     extra_hosts:
