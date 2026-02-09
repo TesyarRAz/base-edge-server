@@ -12,6 +12,7 @@ services:
       - /etc/letsencrypt:/etc/letsencrypt:ro
     networks:
       - monitoring
+      - global_backend
     extra_hosts:
       - "host.docker.internal:host-gateway"
   
@@ -52,4 +53,7 @@ services:
 networks:
   monitoring:
     name: monitoring
+    external: true
+  global_backend:
+    name: global_backend
     external: true
