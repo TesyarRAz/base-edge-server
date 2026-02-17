@@ -89,6 +89,7 @@ services:
       - "${FORWARD_WHATSAPP_PORT}:3000"
     volumes:
       - whatsapp:/app/storages
+    env_file: .env
     command:
       - rest
       - --basic-auth=admin:admin
