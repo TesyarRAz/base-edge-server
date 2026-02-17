@@ -50,7 +50,7 @@ services:
     cpus: 0.2
     mem_limit: 512M
 
-  n8n:
+  tools-n8n:
     image: n8nio/n8n:latest
     container_name: tools-n8n
     restart: unless-stopped
@@ -58,7 +58,7 @@ services:
       - "${FORWARD_N8N_PORT}:5678"
     environment:
       # Basic
-      - N8N_HOST=localhost
+      - N8N_HOST=tools-n8n
       - N8N_PORT=5678
       - N8N_PROTOCOL=http
       - NODE_ENV=production
@@ -89,7 +89,7 @@ services:
       - "${FORWARD_WHATSAPP_PORT}:3000"
     volumes:
       - whatsapp:/app/storages
-    env_file: .env
+    env_file: ./master/whatsapp/.env
     command:
       - rest
       - --basic-auth=admin:admin
