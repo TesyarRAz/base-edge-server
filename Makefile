@@ -2,9 +2,11 @@ setup:
 	mkdir -p data/grafana-data
 	mkdir -p data/prometheus-data
 	mkdir -p data/loki-data
+	mkdir -p data/n8n-data
 	sudo chown -R 472 data/grafana-data
 	sudo chown -R 65534 data/prometheus-data
 	sudo chown -R 10001 data/loki-data
+	sudo chown -R 1000 data/n8n-data
 	docker network create monitoring > /dev/null 2>&1
 
 serve-master:
