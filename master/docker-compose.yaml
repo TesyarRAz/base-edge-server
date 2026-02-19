@@ -81,7 +81,7 @@ services:
     cpus: 0.2
     mem_limit: 512M
 
-  whatsapp:
+  tools-whatsapp:
     image: aldinokemal2104/go-whatsapp-web-multidevice
     container_name: tools-whatsapp
     restart: unless-stopped
