@@ -1,0 +1,24 @@
+services:
+  rabbitmq:
+    image: rabbitmq:4-management-alpine
+    container_name: database-rabbitmq
+    restart: unless-stopped
+    ports:
+      - "${FORWARD_RABBITMQ_PORT}:5672"
+      - "${FORWARD_RABBITMQ_ADMIN_PORT}:15672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=${RABBITMQ_USER}
+      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_PASSWORD}
+    volumes:
+      - ./data/rabbitmq-data:/var/lib/rabbitmq
+    networks:
+      - global_backend
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    cpus: 0.2
+    mem_limit: 512M
+
+networks:
+  global_backend:
+    external: true
+    name: global_backend
